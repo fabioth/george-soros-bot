@@ -2,7 +2,10 @@ import { chromium } from 'playwright';
 import { GRAPH_URL } from './config.js';
 
 export async function captureChart(symbol = 'AAPL', interval = '1D') {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({
+        headless: true,
+        args: ['--use-gl=egl']
+    });
     const page = await browser.newPage();
     await page.setViewportSize({
           width: 960,
@@ -15,13 +18,6 @@ export async function captureChart(symbol = 'AAPL', interval = '1D') {
 
     try {
         await page.goto(url, { waitUntil: 'networkidle' });
-
-        await page.waitForSelector('canvas', { visible: true });
-
-        await page.waitForFunction(() => {
-            const canvas = document.querySelector('canvas');
-            return canvas && canvas.width > 0 && canvas.height > 0;
-        }, { timeout: 10000 }); // Max 10 seconden wachten
 
         // Check if the page contains an error message
         const errorElement = await page.$('.error-message');
