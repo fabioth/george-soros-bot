@@ -18,6 +18,11 @@ export async function captureChart(symbol = 'AAPL', interval = '1D') {
 
         await page.waitForSelector('canvas', { visible: true });
 
+        await page.waitForFunction(() => {
+            const canvas = document.querySelector('canvas');
+            return canvas && canvas.width > 0 && canvas.height > 0;
+        }, { timeout: 10000 }); // Max 10 seconden wachten
+
         // Check if the page contains an error message
         const errorElement = await page.$('.error-message');
         if (errorElement) {
