@@ -14,6 +14,8 @@ export async function captureChart(symbol = 'AAPL', interval = '1D') {
     console.log(`🌍 Loading chart: ${url}`);
 
     try {
+        await page.waitForTimeout(5000);
+        
         await page.goto(url, { waitUntil: 'networkidle' });
 
         // Check if the page contains an error message
