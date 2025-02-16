@@ -4,7 +4,7 @@ import { GRAPH_URL } from './config.js';
 export async function captureChart(symbol = 'AAPL', interval = '1D') {
     const browser = await chromium.launch({
         headless: true,
-        args: ['--use-gl=egl']
+        args: ['--enable-webgl', '--ignore-gpu-blacklist']
     });
     const page = await browser.newPage();
     await page.setViewportSize({
