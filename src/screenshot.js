@@ -5,10 +5,12 @@ export async function captureChart(symbol = 'AAPL', interval = '1D') {
     const browser = await firefox.launch({
         headless: true
     });
-    const page = await browser.newPage();
-    await page.setViewportSize({
-          width: 960,
-          height: 750,
+    const page = await browser.newPage({
+        viewport: {
+            width: 960,
+            height: 750,
+        },
+        deviceScaleFactor: 2
     });
     let screenshotPath = `screenshot.png`;
 
@@ -32,7 +34,8 @@ export async function captureChart(symbol = 'AAPL', interval = '1D') {
 
     } catch (error) {
         console.error('❌ Error loading chart:', error.message);
+        await context.close();
         await browser.close();
-        return { error: error.message }; // Return a structured error
+        return { error: error.message };
     }
 }

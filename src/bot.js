@@ -63,5 +63,7 @@ bot.command(['chart', 'c'], async (ctx) => {
     }
 });
 
+
+
 bot.start();
 console.log('🚀 Telegram bot started!');
